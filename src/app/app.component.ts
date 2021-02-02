@@ -7,11 +7,11 @@ import { InventoryService } from './service/inventory.service';
   styleUrls: ['./app.component.less']
 })
 export class AppComponent {
-  public measures: Array<{ name: string, id: string }> = [];
+  public itemTypes: Array<{ name: string, id: string, measure: string }> = [];
 
   constructor(private inventoryService: InventoryService) {
-    this.inventoryService.getMeasures().subscribe((measures: any) => {
-      this.measures = measures;
+    this.inventoryService.getItemTypes().subscribe((itemTypes: any) => {
+      this.itemTypes = itemTypes;
     });
   }
   title = 'InventoryAngular';

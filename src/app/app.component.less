@@ -1,0 +1,36 @@
+#typeFilter {
+  .dropdown-menu {
+    width: 100%;
+    button {
+      white-space: normal;
+    }
+  }
+}
+.items {
+  list-style: none;
+  padding: 0;
+
+  li {
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    padding: 1px 5px;
+    margin: 10px 5px;
+    .item-header {
+      display: flex;
+      .info {
+        flex: 1;
+        svg {
+          margin-top: -5px;
+        }
+      }
+      .edit-btn {
+        border-radius: 5px;
+        margin: 5px;
+      }
+    }
+    meter {
+      width: 100%;
+      height: 30px;
+    }
+  }
+}

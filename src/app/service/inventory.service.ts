@@ -8,5 +8,7 @@ import { environment } from 'src/environments/environment';
 export class InventoryService {
   constructor(private httpClient: HttpClient) { }
 
-  public getMeasures = () => this.httpClient.get(environment.apiEndpoint + 'measure');
+  public getItemTypes = () => this.httpClient.get(environment.apiEndpoint + 'itemtype');
+
+  public getItems = () => this.httpClient.get(environment.apiEndpoint + 'item');
 }

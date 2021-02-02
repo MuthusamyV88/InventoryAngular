@@ -1,16 +1,16 @@
 export class ItemType {
-    public id: string | undefined;
-    public name: string | undefined;
-    public measure: string | undefined;
+    public id: string = '';
+    public name: string = '';
+    public measure: string = '';
 }
 
 export class Item {
-    public id: string | undefined;
-    public name: string | undefined;
-    public typeID: string | undefined;
-    public available: number | undefined;
-    public maxStock: number | undefined;
-    public updatedOn: Date | undefined;
-    public notes: string | undefined;
-    public type: ItemType | undefined;
+    public id: string = '';
+    public name: string = '';
+    public typeID?: string;
+    public available: number = 0;
+    public maxStock: number = 0;
+    public updatedOn: Date = new Date();
+    public notes: string = '';
+    public type: ItemType = {} as any;
 }

@@ -1,5 +1,5 @@
 <div class="container">
-  <div class="row">
+  <div class="row fixed-header">
     <div>
       <button type="button" class="btn btn-primary">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-down-up"
@@ -32,54 +32,77 @@
       </button>
     </div>
   </div>
+  <div class="row scrollable">
+    <ul class="items">
+      <li *ngFor="let item of items">
+        <div class="item-header">
+          <div class="info">
+            <div>
+              <h4>{{item.name}}</h4>
+            </div>
+            <div>
+              Available:&nbsp;<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                class="bi bi-handbag" viewBox="0 0 16 16">
+                <path
+                  d="M8 1a2 2 0 0 1 2 2v2H6V3a2 2 0 0 1 2-2zm3 4V3a3 3 0 1 0-6 0v2H3.361a1.5 1.5 0 0 0-1.483 1.277L.85 13.13A2.5 2.5 0 0 0 3.322 16h9.356a2.5 2.5 0 0 0 2.472-2.87l-1.028-6.853A1.5 1.5 0 0 0 12.64 5H11zm-1 1v1.5a.5.5 0 0 0 1 0V6h1.639a.5.5 0 0 1 .494.426l1.028 6.851A1.5 1.5 0 0 1 12.678 15H3.322a1.5 1.5 0 0 1-1.483-1.723l1.028-6.851A.5.5 0 0 1 3.36 6H5v1.5a.5.5 0 0 0 1 0V6h4z" />
+              </svg>&nbsp;{{item.available}} {{item.type?.measure}}
+            </div>
+            <div>Last updated: {{item.updatedOn | date:'short'}}</div>
+          </div>
+          <div>
+            <button (click)="openEditModal(content, (item.id||''))" type="button" class="edit-btn btn-outline-primary">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                class="bi bi-pencil-square" viewBox="0 0 16 16">
+                <path
+                  d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456l-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z">
+                </path>
+                <path fill-rule="evenodd"
+                  d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z">
+                </path>
+              </svg></button>
+          </div>
+        </div>
+        <div><meter min="0" [max]="item.maxStock" [low]="(item.maxStock || 0) * 0.1" [high]="item?.maxStock"
+            [optimum]="(item.maxStock || 0) * 0.5" [value]="item.available"></meter></div>
+        <div *ngIf="item.notes != ''">Notes: {{item.notes}}</div>
+      </li>
+    </ul>
+  </div>
 </div>
-<ul class="items">
-  <li *ngFor="let item of items">
-    <div class="item-header">
-      <div class="info">
-        <div>
-          <h4>{{item.name}}</h4>
-        </div>
-        <div>
-          Available:&nbsp;<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-            class="bi bi-handbag" viewBox="0 0 16 16">
-            <path
-              d="M8 1a2 2 0 0 1 2 2v2H6V3a2 2 0 0 1 2-2zm3 4V3a3 3 0 1 0-6 0v2H3.361a1.5 1.5 0 0 0-1.483 1.277L.85 13.13A2.5 2.5 0 0 0 3.322 16h9.356a2.5 2.5 0 0 0 2.472-2.87l-1.028-6.853A1.5 1.5 0 0 0 12.64 5H11zm-1 1v1.5a.5.5 0 0 0 1 0V6h1.639a.5.5 0 0 1 .494.426l1.028 6.851A1.5 1.5 0 0 1 12.678 15H3.322a1.5 1.5 0 0 1-1.483-1.723l1.028-6.851A.5.5 0 0 1 3.36 6H5v1.5a.5.5 0 0 0 1 0V6h4z" />
-          </svg>&nbsp;{{item.available}} {{item.type?.measure}}
-        </div>
-        <div>Last updated: {{item.updatedOn | date:'short'}}</div>
-      </div>
-      <div>
-        <button (click)="openEditModal(content, (item.id||''))" type="button" class="edit-btn btn-outline-primary">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square"
-            viewBox="0 0 16 16">
-            <path
-              d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456l-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z">
-            </path>
-            <path fill-rule="evenodd"
-              d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z">
-            </path>
-          </svg></button>
-      </div>
-    </div>
-    <div><meter min="0" [max]="item.maxStock" [low]="(item.maxStock || 0) * 0.1" [high]="item?.maxStock"
-        [optimum]="(item.maxStock || 0) * 0.5" [value]="item.available"></meter></div>
-    <div *ngIf="item.notes != ''">Notes: {{item.notes}}</div>
-  </li>
-</ul>
 <ng-template #content let-modal>
   <div class="modal-header">
-    <h4 class="modal-title">Modal title</h4>
+    <h4 class="modal-title">Edit Stock</h4>
     <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div class="modal-body">
-    <form>
-      {{editItem | json}}
+    <form name="itemEdit">
+      <div class="form-group">
+        <label for="itemName">Item Name</label>
+        <input type="text" class="form-control" id="itemName" name="itemName" [(ngModel)]="editItem.name" placeholder="Item Name">
+      </div>
+      <div class="form-group">
+        <label for="itemType">Item Type</label>
+        <select class="form-control" name="itemType" (change)="onItemTypeChange($event)" [(ngModel)]="editItem.typeID" id="itemType">
+          <option *ngFor="let itemType of itemTypes" [value]="itemType.id">{{itemType.name}}</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="maxStock">Maximum Stock (in {{measure}})</label>
+        <input type="number" class="form-control" id="maxStock" name="maxStock" [(ngModel)]="editItem.maxStock">
+      </div>
+      <div class="form-group">
+        <label for="available">Available ({{editItem.available}} {{measure}})</label>
+        <input type="range" [step]="measure=='Numbers'? 1 : 0.1" min="0" [max]="editItem.maxStock" class="form-control" id="available" name="available" [(ngModel)]="editItem.available">
+      </div>
+      <div class="form-group">
+        <label for="notes">Notes</label>
+        <textarea class="form-control" id="notes" [(ngModel)]="editItem.notes" rows="3"></textarea>
+      </div>
     </form>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+    <button type="button" class="btn btn-info" (click)="saveStock()">Save</button>
   </div>
 </ng-template>

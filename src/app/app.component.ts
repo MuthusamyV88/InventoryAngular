@@ -12,6 +12,7 @@ export class AppComponent {
   public itemTypes: Array<ItemType> = [];
   public items: Array<Item> = [];
   public editItem = new Item();
+  public measure: string;
 
   constructor(private inventoryService: InventoryService, private modalService: NgbModal) {
     this.inventoryService.getItemTypes().subscribe((itemTypes: any) => {
@@ -23,7 +24,13 @@ export class AppComponent {
   }
   title = 'InventoryAngular';
   public openEditModal(content: any, id: string) {
-    this.editItem = this.items.find((r) => r.id == id) || new Item();
+    this.editItem = Object.assign({}, this.items.find((r) => r.id == id) || new Item());
+    this.measure = this.editItem.type.measure;
     this.modalService.open(content);
+  }
+  public onItemTypeChange() {
+    this.measure = this.itemTypes.find((r) => r.id == this.editItem.typeID).measure;
+  }
+  public saveStock() {
   }
 }

@@ -9,4 +9,6 @@ export class InventoryService {
   constructor(private httpClient: HttpClient) { }
 
   public getItemTypes = () => this.httpClient.get(environment.apiEndpoint + 'itemtype');
+
+  public getItems = () => this.httpClient.get(environment.apiEndpoint + 'item');
 }

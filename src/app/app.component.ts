@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Item, ItemType } from './models';
 import { InventoryService } from './service/inventory.service';
 
 @Component({
@@ -7,11 +8,15 @@ import { InventoryService } from './service/inventory.service';
   styleUrls: ['./app.component.less']
 })
 export class AppComponent {
-  public itemTypes: Array<{ name: string, id: string, measure: string }> = [];
+  public itemTypes: Array<ItemType> = [];
+  public items: Array<Item> = [];
 
   constructor(private inventoryService: InventoryService) {
     this.inventoryService.getItemTypes().subscribe((itemTypes: any) => {
       this.itemTypes = itemTypes;
+    });
+    this.inventoryService.getItems().subscribe((items: any) => { 
+      this.items = items;
     });
   }
   title = 'InventoryAngular';

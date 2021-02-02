@@ -12,7 +12,8 @@
     </div>
     <div style="flex: 1; padding: 0 5px;">
       <div id="typeFilter" ngbDropdown>
-        <button style="width: 100%;" class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>Toggle dropdown</button>
+        <button style="width: 100%;" class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>Toggle
+          dropdown</button>
         <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
           <button ngbDropdownItem>All</button>
           <button *ngFor="let itemType of itemTypes" ngbDropdownItem>{{itemType.name}}</button>
@@ -32,3 +33,11 @@
     </div>
   </div>
 </div>
+<ul class="items">
+  <li *ngFor="let item of items">
+    <div>{{item.name}} - Available ({{item.available}} {{item.type?.measure}})</div>
+    <div>Last updated: {{item.updatedOn | date:'short'}}</div>
+    <div><input readonly [id]="item.id" step="0.5" type="range" min="0" [max]="item.maxStock" [value]="item.available" ></div>
+    <div>Notes: {{item.notes}}</div>
+  </li>
+</ul>

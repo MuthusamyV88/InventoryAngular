@@ -14,6 +14,7 @@ export class AppComponent {
   public editItem = new Item();
   public addItemType = new ItemType();
   public measure: string;
+  public filteredBy = 'All';
 
   constructor(private inventoryService: InventoryService, private modalService: NgbModal) {
     this.inventoryService.getItemTypes().subscribe((itemTypes: any) => {
@@ -21,6 +22,7 @@ export class AppComponent {
     });
     this.inventoryService.getItems().subscribe((items: any) => {
       this.items = items;
+      this.clearFilter();
     });
   }
   title = 'InventoryAngular';
@@ -43,16 +45,32 @@ export class AppComponent {
     this.measure = this.itemTypes.find((r) => r.id == this.editItem.typeID).measure;
   }
   public saveStock() {
-    this.inventoryService.addEditItem(this.editItem).subscribe(() => {
+    const isAdd = this.editItem.id == '';
+    this.inventoryService.addEditItem(this.editItem).subscribe((id: string) => {
+      this.editItem.id = id;
+      if (isAdd) {
+        this.items.push(Object.assign({}, this.editItem));
+      } else {
+        const itemIndex = this.items.findIndex((item) => item.id == id);
+        this.items.splice(itemIndex, 1, Object.assign({}, this.editItem));
+      }
       this.modalService.dismissAll();
     });
   }
   public saveItemType() {
-    this.inventoryService.addItemType(this.addItemType).subscribe(() => {
-      this.inventoryService.getItemTypes().subscribe((itemTypes: any) => {
-        this.itemTypes = itemTypes;
-        this.modalService.dismissAll();
-      });
+    this.inventoryService.addItemType(this.addItemType).subscribe((id: string) => {
+      this.addItemType.id = id;
+      this.itemTypes.push(Object.assign({}, this.addItemType));
+      this.modalService.dismissAll();
     });
+  }
+  public filterBy = (typeId: string) => {
+    this.filteredBy = this.itemTypes.find((itemType) => itemType.id == typeId).name;
+    this.items.forEach((item) => item.isVisible = item.typeID == typeId);
+  }
+
+  public clearFilter = () => {
+    this.filteredBy = 'All';
+    this.items.forEach((item) => item.isVisible = true);
   }
 }

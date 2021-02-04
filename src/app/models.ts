@@ -14,4 +14,5 @@ export class Item {
     public updatedOn: Date = new Date();
     public notes: string = '';
     public type: ItemType = {} as any;
+    public isVisible: boolean = true;
 }

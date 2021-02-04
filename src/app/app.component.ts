@@ -46,20 +46,20 @@ export class AppComponent {
   }
   public saveStock() {
     const isAdd = this.editItem.id == '';
-    this.inventoryService.addEditItem(this.editItem).subscribe((id: string) => {
-      this.editItem.id = id;
+    this.inventoryService.addEditItem(this.editItem).subscribe((result: any) => {
+      this.editItem.id = result.id;
       if (isAdd) {
         this.items.push(Object.assign({}, this.editItem));
       } else {
-        const itemIndex = this.items.findIndex((item) => item.id == id);
+        const itemIndex = this.items.findIndex((item) => item.id == result.id);
         this.items.splice(itemIndex, 1, Object.assign({}, this.editItem));
       }
       this.modalService.dismissAll();
     });
   }
   public saveItemType() {
-    this.inventoryService.addItemType(this.addItemType).subscribe((id: string) => {
-      this.addItemType.id = id;
+    this.inventoryService.addItemType(this.addItemType).subscribe((result: any) => {
+      this.addItemType.id = result.id;
       this.itemTypes.push(Object.assign({}, this.addItemType));
       this.modalService.dismissAll();
     });

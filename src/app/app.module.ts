@@ -4,6 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
 import { NgbModalModule, NgbModule, NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -11,6 +12,7 @@ import { NgbModalModule, NgbModule, NgbPopoverModule } from '@ng-bootstrap/ng-bo
   ],
   imports: [
     BrowserModule,
+    FormsModule,
     NgbModalModule,
     HttpClientModule,
     NgbModule,

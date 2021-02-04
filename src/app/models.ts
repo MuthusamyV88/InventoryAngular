@@ -8,7 +8,8 @@ export class Item {
     public id: string = '';
     public name: string = '';
     public typeID?: string;
-    public available: number = 0;
+    public stock: number = 0;
+    public inUse: number = 0;
     public maxStock: number = 0;
     public updatedOn: Date = new Date();
     public notes: string = '';

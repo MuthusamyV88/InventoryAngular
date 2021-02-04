@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  apiEndpoint: 'https://muthu.somee.com/api/inventory/',
+  apiEndpoint: 'http://localhost:50124/api/inventory/',
 };
 
 /*

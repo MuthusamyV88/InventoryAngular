@@ -12,6 +12,7 @@ export class AppComponent {
   public itemTypes: Array<ItemType> = [];
   public items: Array<Item> = [];
   public editItem = new Item();
+  public addItemType = new ItemType();
   public measure: string;
 
   constructor(private inventoryService: InventoryService, private modalService: NgbModal) {
@@ -24,13 +25,34 @@ export class AppComponent {
   }
   title = 'InventoryAngular';
   public openEditModal(content: any, id: string) {
-    this.editItem = Object.assign({}, this.items.find((r) => r.id == id) || new Item());
-    this.measure = this.editItem.type.measure;
+    if (id === undefined) {
+      this.editItem = new Item();
+      this.measure = "Kilo";
+    } else {
+      this.editItem = Object.assign({}, this.items.find((r) => r.id == id) || new Item());
+      this.measure = this.editItem.type.measure;
+    }
+    this.modalService.open(content);
+  }
+  public openAddItemTypeModal(content: any) {
+    this.addItemType = new ItemType();
+    this.addItemType.measure = 'Litre'
     this.modalService.open(content);
   }
   public onItemTypeChange() {
     this.measure = this.itemTypes.find((r) => r.id == this.editItem.typeID).measure;
   }
   public saveStock() {
+    this.inventoryService.addEditItem(this.editItem).subscribe(() => {
+      this.modalService.dismissAll();
+    });
+  }
+  public saveItemType() {
+    this.inventoryService.addItemType(this.addItemType).subscribe(() => {
+      this.inventoryService.getItemTypes().subscribe((itemTypes: any) => {
+        this.itemTypes = itemTypes;
+        this.modalService.dismissAll();
+      });
+    });
   }
 }

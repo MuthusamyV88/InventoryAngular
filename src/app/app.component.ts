@@ -46,6 +46,7 @@ export class AppComponent {
   }
   public saveStock() {
     const isAdd = this.editItem.id == '';
+    this.itemTypes['type'] = this.itemTypes.find((r)=>r.id == this.editItem.typeID);
     this.inventoryService.addEditItem(this.editItem).subscribe((result: any) => {
       this.editItem.id = result.id;
       if (isAdd) {
@@ -72,5 +73,5 @@ export class AppComponent {
     this.filteredBy = 'All';
     this.items.forEach((item) => item.isVisible = true);
   }
-  public display = (item: Item) => (item.inUse + item.stock).toFixed(2);
+  public display = (item: Item) => item.type.measure == 'Numbers'? (item.inUse + item.stock) : (item.inUse + item.stock).toFixed(2);
 }

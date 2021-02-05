@@ -102,19 +102,21 @@
           [(ngModel)]="editItem.name" placeholder="Item Name">
       </div>
       <div class="form-group">
-        <label for="maxStock">Maximum Stock (in {{measure}})</label>
-        <input type="number" class="form-control form-control-sm" id="maxStock" name="maxStock"
-          [(ngModel)]="editItem.maxStock">
+        <div class="row">
+          <div class="col-8"><label for="maxStock">Max Stock (in {{measure}})</label></div>
+          <div class="col-4"><input type="number" class="form-control form-control-sm" id="maxStock" name="maxStock"
+              [(ngModel)]="editItem.maxStock"></div>
+        </div>
       </div>
       <div class="form-group">
         <label for="stock">In Stock ({{editItem.stock}} {{measure}})</label>
         <input type="range" [step]="measure=='Numbers'? 1 : 0.05" min="0" [max]="editItem.maxStock"
-          class="form-control form-control-sm" id="stock" name="stock" [(ngModel)]="editItem.stock">
+          class="form-control-range" id="stock" name="stock" [(ngModel)]="editItem.stock">
       </div>
       <div class="form-group">
         <label for="inuse">In Use ({{editItem.inUse}} {{measure}})</label>
         <input type="range" [step]="measure=='Numbers'? 1 : 0.05" min="0" [max]="editItem.maxStock"
-          class="form-control form-control-sm" id="inuse" name="inuse" [(ngModel)]="editItem.inUse">
+          class="form-control-range" id="inuse" name="inuse" [(ngModel)]="editItem.inUse">
       </div>
       <div class="form-group">
         <label for="notes">Notes</label>
@@ -133,8 +135,8 @@
     <form name="itemEdit">
       <div class="form-group">
         <label for="itemTypeName">Name</label>
-        <input autocomplete="off" type="text" class="form-control form-control-sm" id="itemTypeName"
-          name="itemTypeName" [(ngModel)]="addItemType.name" placeholder="Item Type Name">
+        <input autocomplete="off" type="text" class="form-control form-control-sm" id="itemTypeName" name="itemTypeName"
+          [(ngModel)]="addItemType.name" placeholder="Item Type Name">
       </div>
       <div class="form-group">
         <label for="itemType">Measured in</label>

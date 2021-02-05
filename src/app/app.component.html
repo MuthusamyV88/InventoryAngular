@@ -45,7 +45,7 @@
                 class="bi bi-handbag" viewBox="0 0 16 16">
                 <path
                   d="M8 1a2 2 0 0 1 2 2v2H6V3a2 2 0 0 1 2-2zm3 4V3a3 3 0 1 0-6 0v2H3.361a1.5 1.5 0 0 0-1.483 1.277L.85 13.13A2.5 2.5 0 0 0 3.322 16h9.356a2.5 2.5 0 0 0 2.472-2.87l-1.028-6.853A1.5 1.5 0 0 0 12.64 5H11zm-1 1v1.5a.5.5 0 0 0 1 0V6h1.639a.5.5 0 0 1 .494.426l1.028 6.851A1.5 1.5 0 0 1 12.678 15H3.322a1.5 1.5 0 0 1-1.483-1.723l1.028-6.851A.5.5 0 0 1 3.36 6H5v1.5a.5.5 0 0 0 1 0V6h4z" />
-              </svg>&nbsp;{{item.stock + item.inUse}} {{item.type?.measure}}
+              </svg>&nbsp;{{ display(item) }} {{item.type?.measure}}
             </div>
             <div>Last updated: {{item.updatedOn | date:'short'}}</div>
           </div>
@@ -62,8 +62,8 @@
               </svg></button>
           </div>
         </div>
-        <div><meter min="0" [max]="item.maxStock" [low]="(item.maxStock || 0) * 0.1" [high]="item.maxStock"
-            [optimum]="(item.maxStock || 0) * 0.5" [value]="item.stock + item.inUse"></meter></div>
+        <div><meter min="0" [max]="item.maxStock" [low]="(item.maxStock || 0) * 0.25" [high]="item.maxStock"
+            [optimum]="(item.maxStock || 0) * 0.75" [value]="item.stock + item.inUse"></meter></div>
         <div *ngIf="item.notes != ''">Notes: {{item.notes}}</div>
       </li>
     </ul>
@@ -72,11 +72,6 @@
 <ng-template #content let-modal>
   <div class="modal-body">
     <form name="itemEdit">
-      <div class="form-group">
-        <label for="itemName">Item Name</label>
-        <input type="text" autocomplete="false" class="form-control form-control-sm" id="itemName" name="itemName"
-          [(ngModel)]="editItem.name" placeholder="Item Name">
-      </div>
       <div class="form-group">
         <label for="itemType">Item Type</label>
         <div class="row">
@@ -102,24 +97,29 @@
         </div>
       </div>
       <div class="form-group">
+        <label for="itemName">Item Name</label>
+        <input type="text" autocomplete="off" class="form-control form-control-sm" id="itemName" name="itemName"
+          [(ngModel)]="editItem.name" placeholder="Item Name">
+      </div>
+      <div class="form-group">
         <label for="maxStock">Maximum Stock (in {{measure}})</label>
         <input type="number" class="form-control form-control-sm" id="maxStock" name="maxStock"
           [(ngModel)]="editItem.maxStock">
       </div>
       <div class="form-group">
         <label for="stock">In Stock ({{editItem.stock}} {{measure}})</label>
-        <input type="range" [step]="measure=='Numbers'? 1 : 0.1" min="0" [max]="editItem.maxStock"
+        <input type="range" [step]="measure=='Numbers'? 1 : 0.05" min="0" [max]="editItem.maxStock"
           class="form-control form-control-sm" id="stock" name="stock" [(ngModel)]="editItem.stock">
       </div>
       <div class="form-group">
         <label for="inuse">In Use ({{editItem.inUse}} {{measure}})</label>
-        <input type="range" [step]="measure=='Numbers'? 1 : 0.1" min="0" [max]="editItem.maxStock - editItem.stock"
+        <input type="range" [step]="measure=='Numbers'? 1 : 0.05" min="0" [max]="editItem.maxStock"
           class="form-control form-control-sm" id="inuse" name="inuse" [(ngModel)]="editItem.inUse">
       </div>
       <div class="form-group">
         <label for="notes">Notes</label>
         <textarea class="form-control form-control-sm" id="notes" [(ngModel)]="editItem.notes" name="notes"
-          rows="3"></textarea>
+          rows="2"></textarea>
       </div>
     </form>
   </div>
@@ -133,7 +133,7 @@
     <form name="itemEdit">
       <div class="form-group">
         <label for="itemTypeName">Name</label>
-        <input autocomplete="false" type="text" class="form-control form-control-sm" id="itemTypeName"
+        <input autocomplete="off" type="text" class="form-control form-control-sm" id="itemTypeName"
           name="itemTypeName" [(ngModel)]="addItemType.name" placeholder="Item Type Name">
       </div>
       <div class="form-group">

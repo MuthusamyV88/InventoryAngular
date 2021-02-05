@@ -17,11 +17,11 @@ export class AppComponent {
   public filteredBy = 'All';
 
   constructor(private inventoryService: InventoryService, private modalService: NgbModal) {
-    this.inventoryService.getItemTypes().subscribe((itemTypes: any) => {
-      this.itemTypes = itemTypes;
+    this.inventoryService.getItemTypes().subscribe((itemTypes: Array<ItemType>) => {
+      this.itemTypes = itemTypes.sort((a, b) => a.name.localeCompare(b.name));
     });
     this.inventoryService.getItems().subscribe((items: any) => {
-      this.items = items;
+      this.items = items.sort((a, b) => a.name.localeCompare(b.name));
       this.clearFilter();
     });
   }
@@ -46,6 +46,7 @@ export class AppComponent {
   }
   public saveStock() {
     const isAdd = this.editItem.id == '';
+    this.itemTypes['type'] = this.itemTypes.find((r)=>r.id == this.editItem.typeID);
     this.inventoryService.addEditItem(this.editItem).subscribe((result: any) => {
       this.editItem.id = result.id;
       if (isAdd) {
@@ -68,9 +69,9 @@ export class AppComponent {
     this.filteredBy = this.itemTypes.find((itemType) => itemType.id == typeId).name;
     this.items.forEach((item) => item.isVisible = item.typeID == typeId);
   }
-
   public clearFilter = () => {
     this.filteredBy = 'All';
     this.items.forEach((item) => item.isVisible = true);
   }
+  public display = (item: Item) => item.type.measure == 'Numbers'? (item.inUse + item.stock) : (item.inUse + item.stock).toFixed(2);
 }
